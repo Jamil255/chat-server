@@ -16,16 +16,16 @@ import {
   STOP_TYPING,
   CHAT_JOINED,
   CHAT_LEAVED,
-  ONLINE_USERS
+  ONLINE_USERS,
 } from './constants/event.js'
 import { v4 as uuid } from 'uuid'
 import { getSocket } from './utills/index.js'
 import messageModel from './models/messageSchema.js'
 import { socketAuthenticator } from './middleware/auth.js'
 const userSocketId = new Map()
-const onlineUsers=new Set()
+const onlineUsers = new Set()
 const app = express()
-const PORT = process.env.PORT
+const PORT =3000
 const server = createServer(app)
 const io = new Server(server, {
   cors: corsOption,
@@ -36,8 +36,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 connectDb()
 app.use(cors(corsOption))
-app.get("/",(req,res)=>{
-    res.send("hello world")
+app.get('/', (req, res) => {
+  res.send('hello world')
 })
 app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/chat', chatRoutes)
@@ -99,20 +99,20 @@ io.on('connection', (socket) => {
     socket.to(socketMembers).emit(STOP_TYPING, { chatId })
   })
 
-  socket.on(CHAT_JOINED,({userId,members})=>{
-onlineUsers.add(userId.toString())
-const socketMember=getSocket(members)
-io.to(socketMember).emit(ONLINE_USERS,Array.from(onlineUsers))
-})
-  socket.on(CHAT_LEAVED,({userId,members})=>{
-onlineUsers.add(userId.toString())
-const socketMember=getSocket(members)
-io.to(socketMember).emit(ONLINE_USERS,Array.from(onlineUsers))
+  socket.on(CHAT_JOINED, ({ userId, members }) => {
+    onlineUsers.add(userId.toString())
+    const socketMember = getSocket(members)
+    io.to(socketMember).emit(ONLINE_USERS, Array.from(onlineUsers))
+  })
+  socket.on(CHAT_LEAVED, ({ userId, members }) => {
+    onlineUsers.add(userId.toString())
+    const socketMember = getSocket(members)
+    io.to(socketMember).emit(ONLINE_USERS, Array.from(onlineUsers))
   })
   socket.on('disconnect', () => {
     userSocketId.delete(user._id.toString())
     onlineUsers.delete(user._id.toString())
-    socket.broadcast.emit(ONLINE_USERS,Array.from(onlineUsers))
+    socket.broadcast.emit(ONLINE_USERS, Array.from(onlineUsers))
   })
 })
 
