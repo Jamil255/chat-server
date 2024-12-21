@@ -1,7 +1,6 @@
-const corsOption={
-    origin: '*',
-    credentials: true,
-    method:["GET", "POST", "PUT", "DELETE"]
+const corsOption = {
+  origin: '*',
+  credentials: true,
 }
-  
-export{corsOption}
+
+export { corsOption }
