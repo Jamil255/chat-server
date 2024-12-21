@@ -1,6 +1,6 @@
-const corsOption = {
-  origin: '*',
-  credentials: true,
+const corsOption={
+    origin: 'http://localhost:5173',
+    credentials: true,
 }
-
-export { corsOption }
+  
+export{corsOption}
