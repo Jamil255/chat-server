@@ -25,7 +25,7 @@ import { socketAuthenticator } from './middleware/auth.js'
 const userSocketId = new Map()
 const onlineUsers = new Set()
 const app = express()
-const PORT =3000
+const PORT = 3000
 const server = createServer(app)
 const io = new Server(server, {
   cors: corsOption,
@@ -36,6 +36,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 connectDb()
 app.use(cors(corsOption))
+app.options('*', cors(corsOption)) // Handle preflight for all routes
+
 app.get('/', (req, res) => {
   res.send('hello world')
 })
