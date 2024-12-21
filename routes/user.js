@@ -34,7 +34,7 @@ app.post(
 
 // after login this route is acess
 
-app.use(isAuthenticated)
+// app.use(isAuthenticated)
 app.get('/me', getMyProfile)
 app.get('/logout', logoutHandler)
 app.get('/search', searchHandler)

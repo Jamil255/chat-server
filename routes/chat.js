@@ -25,7 +25,7 @@ import {
 import { attachmentsMulter } from '../middleware/multer.js'
 const app = express()
 
-app.use(isAuthenticated)
+// app.use(isAuthenticated)
 app.post('/new/group', newGroupValidator(), validateHandler, newGroupChat)
 app.get('/my/chat', getMyChats)
 app.get('/my/group', getMyGroup)
